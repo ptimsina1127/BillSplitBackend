@@ -23,5 +23,6 @@ urlpatterns = [
     path('login/',views.loginpage),
     path('insertdata/',views.insertData),
     path('showAll/',views.listItems),
+    path('createitems/',views.itemCreate),
 
 ]

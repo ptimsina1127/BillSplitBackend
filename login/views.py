@@ -2,15 +2,17 @@ from django.shortcuts import render
 from django.http import HttpResponse,JsonResponse
 from django.template import loader
 import json
-
 from .models import Item
+from .forms import itemForms
+
 # Create your views here.
 def index(request):
     return HttpResponse("Hello World")
 
 def loginpage(request):
-    template = loader.get_template("signup.html")
-    return HttpResponse(template.render())
+    #template = loader.get_template("signup.html")
+    #return HttpResponse(template.render())
+    return render(request,"signup.html") 
 
 def insertData(request):
     item1 = Item(itemName ="Momo",itemPrice = 40,itemCategory="Food")
@@ -32,5 +34,17 @@ def listItems(request):
     "language": "English"
   }
     }
-    
     return JsonResponse(jsonData)
+
+def itemCreate(request):
+    formOne = itemForms()
+    ctx = {"form":formOne}
+
+    if request.method == "POST":
+        formTwo = itemForms (request.POST)
+        if formTwo.is_valid():
+            formTwo.save()
+
+        return render(request,"items.html",ctx)   
+        
+    return render(request,"items.html",ctx)
